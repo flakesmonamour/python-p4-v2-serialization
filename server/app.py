@@ -1,24 +1,24 @@
 # server/app.py
-#!/usr/bin/env python3
 
-from flask import Flask, make_response
+from flask import Flask
 from flask_migrate import Migrate
 
-from models import db, Pet
+from models import db
 
+# create a Flask application instance 
 app = Flask(__name__)
+
+# configure the database connection to the local file app.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+
+# configure flag to disable modification tracking and use less memory
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
 
+# create a Migrate object to manage schema modifications
 migrate = Migrate(app, db)
+
+# initialize the Flask application to use the database
 db.init_app(app)
-
-
-@app.route('/')
-def index():
-    body = {'message': 'Welcome to the pet directory!'}
-    return make_response(body, 200)
 
 
 if __name__ == '__main__':
